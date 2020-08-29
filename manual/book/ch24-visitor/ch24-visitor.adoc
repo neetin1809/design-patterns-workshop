@@ -1,0 +1,85 @@
+[[ch24-visitor]]
+== Visitor Pattern
+
+=== GoF Definition
+
+Represent an operation to be performed on the elements of an object structure.Vis- itor lets you define a new operation without changing the classes of the elements on which it operates.
+
+==== Basic Components
+
+[plantuml, visitor-components, png]
+----
+interface Visitor {
+    +visitConcreteElementA(ConcreteElementA a)
+    +visitConcreteElementB(ConcreteElementB b)
+}
+class ConcreteVisitorA
+class ConcreteVisitorB
+class Element {
+    +accept(Visitor visitor)
+}
+class ObjectStructure
+class ConcreteElementA
+class ConcreteElementB
+class Client
+Visitor <|-- ConcreteVisitorA
+Visitor <|-- ConcreteVisitorB
+Visitor <-- Element
+Element <|-- ConcreteElementA
+Element <|-- ConcreteElementB
+Visitor <-- Client
+Element <--* ObjectStructure
+ObjectStructure <-- Client
+note as N1
+accept(Visitor visitor) {
+    visitor.visitConcreteElementA(this)
+}
+end note
+note as N2
+accept(Visitor visitor) {
+    visitor.visitConcreteElementB(this)
+}
+end note
+ConcreteElementA <-- N1
+ConcreteElementB <-- N2
+----
+
+[source,java]
+----
+include::../../../ch24-visitor/ex01/src/main/java/com/company/example/AbstractVisitor.java[tags=source]
+----
+
+[source,java]
+----
+include::../../../ch24-visitor/ex01/src/main/java/com/company/example/HTMLElement.java[tags=source]
+----
+
+[source,java]
+----
+include::../../../ch24-visitor/ex01/src/main/java/com/company/example/BodyElement.java[tags=source]
+----
+
+[source,java]
+----
+include::../../../ch24-visitor/ex01/src/main/java/com/company/example/PElement.java[tags=source]
+----
+
+[source,java]
+----
+include::../../../ch24-visitor/ex01/src/main/java/com/company/example/TextElement.java[tags=source]
+----
+
+[source,java]
+----
+include::../../../ch24-visitor/ex01/src/main/java/com/company/example/Markup.java[tags=source]
+----
+
+[source,java]
+----
+include::../../../ch24-visitor/ex01/src/main/java/com/company/example/BasicVisitor.java[tags=source]
+----
+
+[source,java]
+----
+include::../../../ch24-visitor/ex01/src/test/java/com/company/example/VisitorTest.java[tags=source]
+----
