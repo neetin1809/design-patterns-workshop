@@ -2,23 +2,24 @@
 
 The concepts discussed in workshop as well as example source code details.
 
-## How To Generate the Manual
+## Building with podman container
 
-You can generate the e-book files manually with Asciidoctor.
-If you run the following you will get HTML, Epub and PDF output files:
+### Ensure podman machine is having access to user home
 
 ```bash
-bundle install
-bundle exec rake book:build
+podman machine init --cpus=4 --disk-size=60 --memory=6096 -v $HOME:$HOME
 ```
 
-Output shall be
+### Pull the image for use
 
-```txt
-Converting to HTML...
- -- HTML output at ./build/book-template.html
-Converting to EPub...
- -- Epub output at ./build/book-template.epub
-Converting to PDF... (this one takes a while)
- -- PDF output at ./build/book-template.pdf
+```bash
+
+podman pull --platform linux/arm64 docker.io/asciidoctor/docker-asciidoctor # Apple M1 arm64
+podman pull docker.io/asciidoctor/docker-asciidoctor
+```
+
+### Build manual using podman container
+
+```bash
+./manual/podmanbuild.sh
 ```
